@@ -164,6 +164,16 @@ rules:
       - type
 ```
 
+### Kubernetes configuration
+
+In order to configure the Kubernetes deployment, you can use any of the available configuration examples and convert it into a ConfigMap.
+
+```shell
+kubectl create configmap ccloucexport-config --from-file=./config/config.partition.yaml --dry-run=client -oyaml
+```
+
+Then, the deployment can be adjusted to mount the file and pass it as an argument in the Pod's command.
+
 ### Limits
 
 In order to avoid reaching the limit of 1,000 points set by the Confluent Cloud Metrics API, the following soft limits has been established in the exporter:
