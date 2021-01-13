@@ -1,7 +1,6 @@
 -include ../ccloud_exporter.env
 CCLOUD_NS ?= ccloudexporter
 PROM_NS ?= observability
-CCLOUD_CLUSTERS_DNS ?= $(subst _,-,${CCLOUD_CLUSTERS})
 
 install: k8s_deploy_ccloudexporter k8s_prom_apply
 remove: k8s_delete_ns k8s_prom_delete
@@ -21,13 +20,13 @@ k8s_secret:
 k8s_apply: k8s_apply_cm k8s_apply_dp k8s_apply_svc
 
 k8s_apply_dp:
-	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS_DNS), sed "s/#{cluster}#/$(CCLOUD_CLUSTER)/g" ccloudexporter.dp.yaml | kubectl -n ${CCLOUD_NS} apply --record -f - ; )
+	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS), sed "s/#{cluster}#/$(CCLOUD_CLUSTER)/g" ccloudexporter.dp.yaml | kubectl -n ${CCLOUD_NS} apply --record -f - ; )
 
 k8s_apply_svc:
-	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS_DNS), sed "s/#{cluster}#/$(CCLOUD_CLUSTER)/g" ccloudexporter.svc.yaml | kubectl -n ${CCLOUD_NS} apply --record -f - ; )
+	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS), sed "s/#{cluster}#/$(CCLOUD_CLUSTER)/g" ccloudexporter.svc.yaml | kubectl -n ${CCLOUD_NS} apply --record -f - ; )
 
 k8s_apply_cm:
-	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS_DNS), sed "s/#{cluster}#/$(CCLOUD_CLUSTER)/g" ccloudexporter.cm.yaml | kubectl -n ${CCLOUD_NS} apply --record -f - ; )
+	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS), sed "s/#{cluster}#/$(CCLOUD_CLUSTER)/g" ccloudexporter.cm.yaml | kubectl -n ${CCLOUD_NS} apply --record -f - ; )
 
 # prometheus operator deployment
 k8s_prom_apply:
