@@ -16,7 +16,7 @@ k8s_delete_ns:
 	kubectl delete ns ${CCLOUD_NS}
 
 k8s_secret:
-	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS_DNS), kubectl -n ${CCLOUD_NS} create secret generic $(CCLOUD_CLUSTER)-vars --from-literal=CCLOUD_API_KEY=${CCLOUD_API_KEY} --from-literal=CCLOUD_API_SECRET=${CCLOUD_API_SECRET} --from-literal=CCLOUD_CLUSTER=$(subst -,_,${CCLOUD_CLUSTER}) ; )
+	-$(foreach CCLOUD_CLUSTER, $(CCLOUD_CLUSTERS), kubectl -n ${CCLOUD_NS} create secret generic $(CCLOUD_CLUSTER)-vars --from-literal=CCLOUD_API_KEY=${CCLOUD_API_KEY} --from-literal=CCLOUD_API_SECRET=${CCLOUD_API_SECRET} --from-literal=CCLOUD_CLUSTER=$(CCLOUD_CLUSTER) ; )
 
 k8s_apply: k8s_apply_cm k8s_apply_dp k8s_apply_svc
 
