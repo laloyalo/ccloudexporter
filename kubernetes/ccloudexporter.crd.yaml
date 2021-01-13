@@ -3,22 +3,22 @@ kind: ServiceMonitor
 metadata:
   name: ccloudexporter
   labels:
-    release: monitoring
-    crd: ccloudexporter
+    app: prometheus-operator-grafana
+    app.kubernetes.io/instance: prometheus-operator
+    chart: prometheus-operator-9.3.0
+    heritage: Tiller
+    release: prometheus-operator
 spec:
   selector:
-    #matchLabels:
-    #  scrape: prometheus
+    matchLabels:
+      # app: staging-cluster
+      scrape: prometheus
     #matchExpressions:
     #- key: app
     #  operator: Exists
-    #matchExpressions:
-    #- key: app
-    #  operator: In
-    #  values: #{cluster}#-svc
-    matchExpressions:
-    - key: scrape
-      operator: Exists
+    # matchExpressions:
+    # - key: scrape
+    #   operator: Exists
   endpoints:
   - port: metrics
     path: /metrics
